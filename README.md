@@ -2,15 +2,15 @@ Directories and Files
 ---------------------
 
 * README.md:    This file  
-* setup.sh    A script for setting the environmental variables. Run _source setup.sh_ at root direcotry.
+* setup.sh    A script for setting the environmental variables. Run _source setup.sh_ at root directory.
 * src         **DIR** All of the code
 * data        **DIR** All of the data
 
 
 ### src
 * README.md: A markdown file explaining how to use the student\_adaptive\_server
-* active_labelling_server
-* student_adaptive_server
+* active\_labelling\_server
+* student\_adaptive\_server
 * config.yaml
 * notebooks:		Yoav's developing code, in ipython notebook format
 * python:				Yoav's stable code
