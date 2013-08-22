@@ -43,8 +43,9 @@ $(document).ready(function () {
 
         // fire off the POST request and get jqXHR object
         var request = $.ajax({
-            url: "",
+            url: "http://localhost:9000",
             type: "post",
+            dataType: "json",
             data: json_data
         });
         //callback that will be called on success
@@ -123,7 +124,7 @@ $(document).ready(function () {
     */
 
     //Get the values from each .answerbox and return them as exprs array
-    /*
+    
     function get_part_exprs() { 
         // Get expressions corresponding to subparts (text boxes)
         var exprs = [];
@@ -132,13 +133,13 @@ $(document).ready(function () {
         })
         return exprs;
     }
-    */    
+    
 
     //get the values from .answerbox and POST them to server
     function synchronize_with_server() {
-        //exprs = get_part_exprs();
+        exprs = get_part_exprs();
         //send_receive_json(exprs, handle_server_response);
-        send_receive_json("", change_every_five_seconds);
+        send_receive_json("a:12", change_every_five_seconds);
     }
 
     /*
@@ -152,12 +153,13 @@ $(document).ready(function () {
     //Parse the JSON returned by server and
     //hide .part and .tip elements
     //NOTE: init not used at all
-    function change_every_five_seconds(response_str, init) {
-        parts_info = JSON.parse(response_str);
+    function change_every_five_seconds(responseJSON, init) {
+        //parts_info = JSON.parse(response_str);
+        //parts_info = response_str;
         //hide all parts and tips to begin
         $(".part").hide();
         $(".tip").hide();
-        display_hashmap(0, parts_info);
+        display_hashmap(0, responseJSON);
     }
 
 

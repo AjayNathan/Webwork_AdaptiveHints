@@ -6,7 +6,7 @@ import webbrowser
 import BaseHTTPServer
 import SimpleHTTPServer
 import simplejson as json
-import os, sys
+import os, sys, time
 from webwork.expr_parser.webwork_parser import parse_webwork,WebworkParseException
 from webwork.cluster_exprs import preprocessor_parsing
 
@@ -44,22 +44,31 @@ class TestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         # Get client data
         length = int(self.headers.getheader('content-length'))        
         data_string = self.rfile.read(length)
+        print data_string;
         client_data = json.loads(data_string)
         # Create response object
         self.student_session()
-        self.wfile.write(json.dumps(self._student_session))
+        jsonObj = json.dumps(self._student_session);
+        self.send_response(200)
+        #s.send_header("Content-type", "text")
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        self.wfile.write(jsonObj);
+        #time.sleep(2);
+        #toBeSent = self.wfile.read();
+        print "Sending:\n"
+        self.wfile.write(json.dump(self._student_session))
 
 def start_server():
     """Start the server."""
-    server_address = ("", PORT)
+    server_address = ("localhost", PORT)
     server = BaseHTTPServer.HTTPServer(server_address, TestHandler)
     server.serve_forever()
 
 if __name__ == "__main__":
     # Load the yaml config file
     with open('../config.yaml','r') as f:
-        config = yaml.load(f)
-    
+        config = yaml.load(f)    
     # Set path/port variables used by the server
     FILE = config['Server configuration']['html file to serve']
     PORT = config['Server configuration']['port']
@@ -67,8 +76,7 @@ if __name__ == "__main__":
         config['WebWork problem json relative path'])
     student_session_path = os.path.join(config['Data path'],
         config['Student session data']['relative path'])
-    student_session_id = config['Student session data']['session id']
-   
+    student_session_id = config['Student session data']['session id']   
     # Start the server 
     print 'http://localhost:%s/%s' % (PORT, FILE)
     start_server()
