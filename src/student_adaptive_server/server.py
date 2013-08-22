@@ -47,17 +47,13 @@ class TestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         print data_string;
         client_data = json.loads(data_string)
         # Create response object
-        self.student_session()
-        jsonObj = json.dumps(self._student_session);
-        self.send_response(200)
-        #s.send_header("Content-type", "text")
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        self.wfile.write(jsonObj);
-        #time.sleep(2);
-        #toBeSent = self.wfile.read();
+        self.student_session()        
+        self.send_response(200)        
+        self.send_header("Access-Control-Allow-Origin", '*')
+        #self.send_header("Content-type", "application/json")
+        self.end_headers()        
         print "Sending:\n"
-        self.wfile.write(json.dump(self._student_session))
+        self.wfile.write(json.dumps(self._student_session))
 
 def start_server():
     """Start the server."""

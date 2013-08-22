@@ -44,8 +44,7 @@ $(document).ready(function () {
         // fire off the POST request and get jqXHR object
         var request = $.ajax({
             url: "http://localhost:9000",
-            type: "post",
-            dataType: "json",
+            type: "post",            
             data: json_data
         });
         //callback that will be called on success
@@ -153,13 +152,16 @@ $(document).ready(function () {
     //Parse the JSON returned by server and
     //hide .part and .tip elements
     //NOTE: init not used at all
-    function change_every_five_seconds(responseJSON, init) {
+    function change_every_five_seconds(response_str, init) {
         //parts_info = JSON.parse(response_str);
         //parts_info = response_str;
         //hide all parts and tips to begin
         $(".part").hide();
         $(".tip").hide();
-        display_hashmap(0, responseJSON);
+        //console.log(responseJSON);
+        console.log(typeof (response_str));
+        parts_info = JSON.parse(response_str);
+        display_hashmap(0, parts_info);
     }
 
 

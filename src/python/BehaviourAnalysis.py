@@ -7,13 +7,20 @@ from copy import deepcopy
 
 class BehaviourAnalysis:
     def __init__(self,filename):
+        '''Construct the object by unpickling from filename
+        and setting __dict__ attribute to the loaded data 
+        '''
+        #NOTE: print not Python3 compliant
         print 'starting to load',filename
-        Dict=pickle.load(open(filename,'rb'))
+        with open(filename,'rb') as f:
+            Dict=pickle.load(f)
         self.__dict__=Dict
         print 'finished loading, loaded',self.__dict__.keys()
 
     def measure_effort(self,key):
+        #No definition for GroupedDataFrame so far
         Ga=self.GroupedDataFrame[key]
+        #Create empty dictionaries
         Dtimes={}
         Danswers={}
         Dcorrect={}
@@ -23,9 +30,11 @@ class BehaviourAnalysis:
         last_answer_correct=False
         group_by_counter=dict(list(Ga.groupby('counter')))
 
+        #Get part keys and sort them
         part_keys=group_by_counter.keys()
         part_keys=sorted(part_keys)
         for k in part_keys:
+            #Get the value in the current key
             group = group_by_counter[k]
             #take the first entry of the parameters that don't change inside a group.
             Assignment,problem_no,part_no=group[['Assignment','problem_no','part_no']].values[0,:]
